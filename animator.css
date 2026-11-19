@@ -1,0 +1,406 @@
+/* All styling for the Animator app. The .gleam files only attach class names. */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; height: 100%; overflow: hidden; }
+
+/* ── Layout: two columns ─────────────────────────────────────────────────── */
+
+.app {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #1a1a2e;
+  color: #d4c5a0;
+  font-family: system-ui, sans-serif;
+  font-size: 14px;
+}
+
+/* Left column: the code editor. */
+.code-col {
+  width: 42%;
+  min-width: 320px;
+  max-width: 720px;
+  flex-shrink: 0;
+  display: flex;
+  border-right: 1px solid #3a3a5e;
+  background: #0f0f1e;
+}
+
+/* The code column stays in the DOM when collapsed, so CodeMirror keeps its
+   state; hiding it gives the right column the full width. */
+.app.code-hidden .code-col { display: none; }
+
+/* A small emoji button (the code pane's collapse toggle, and the playback
+   controls once they exist). */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #2a2a4a;
+  color: #d4c5a0;
+  border: 1px solid #4a4a8a;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 5px 8px;
+}
+.icon-btn:hover { background: #3a3a5e; }
+
+/* ── Code panel (left column) ───────────────────────────────────────────── */
+
+.code-panel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #1a1a3e;
+  border-bottom: 1px solid #3a3a5e;
+}
+.code-title {
+  color: #e8d8b0;
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+}
+
+/* Wrapper holding the editor. */
+.code-editor-wrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+}
+/* CodeMirror mount node: grows to fill the panel. */
+.code-editor {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+  background: #0d0d1a;
+}
+.code-editor .cm-editor { width: 100%; height: 100%; }
+
+/* Collapsible reference of the built-ins available to draw functions. */
+.reference {
+  margin: 8px 14px 0;
+  border: 1px solid #3a3a5e;
+  border-radius: 4px;
+  background: #0d0d1a;
+  overflow: hidden;
+}
+.reference-summary {
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #b8a888;
+  font-family: monospace;
+  font-size: 12px;
+  user-select: none;
+}
+.reference-summary:hover { color: #e8d8b0; }
+.reference-body {
+  padding: 4px 12px 10px;
+  border-top: 1px solid #3a3a5e;
+}
+.reference-group { margin-top: 8px; }
+.reference-group-title {
+  color: #8a8aca;
+  font-family: monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+.reference-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 1px 0;
+}
+.reference-sig {
+  color: #89ddff;
+  font-family: monospace;
+  font-size: 12px;
+  white-space: pre;
+}
+.reference-desc { color: #6a7a8a; font-size: 11px; }
+
+/* ── Animation column (right side: canvas + controls) ───────────────────── */
+
+.anim-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0a0a14;
+}
+
+.canvas-area {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 20px;
+  padding: 10px 16px;
+  border-top: 1px solid #3a3a5e;
+  background: #12121f;
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 140px;
+}
+
+.control-label {
+  color: #b8a888;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.control input[type="range"] {
+  width: 100%;
+  accent-color: #89ddff;
+}
+
+.control-select {
+  flex: 0 1 180px;
+  min-width: 120px;
+}
+
+.control-select select {
+  width: 100%;
+  padding: 4px 8px;
+  background: #1a1a3e;
+  color: #e8d8b0;
+  border: 1px solid #4a4a8a;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+/* ── Jump Lab ────────────────────────────────────────────────────────────── */
+
+.jump-lab {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 16px 8px;
+  border-top: 1px solid #3a3a5e;
+  background: #0e0e1c;
+}
+
+.jump-lab-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+
+.jump-lab-toggle {
+  font-family: Georgia, serif;
+  letter-spacing: 0.03em;
+  padding: 6px 12px;
+}
+
+.jump-lab-toggle.active {
+  background: #3a2a5e;
+  border-color: #c792ea;
+  color: #e8d8b0;
+}
+
+.jump-start {
+  font-family: Georgia, serif;
+  letter-spacing: 0.03em;
+  padding: 6px 14px;
+  background: #2a4a3a;
+  border-color: #c3e88d;
+  color: #e8f5d0;
+}
+
+.jump-start:hover {
+  background: #3a5a4a;
+}
+
+.jump-start:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.jump-score {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: baseline;
+  color: #b8a888;
+  font-size: 12px;
+}
+
+.jump-code {
+  font-family: monospace;
+  font-size: 18px;
+  color: #c792ea;
+  font-weight: 600;
+}
+
+.jump-takeoff {
+  color: #6a7a8a;
+  font-style: italic;
+}
+
+.jump-physics {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid #3a3a5e;
+  border-radius: 4px;
+  background: #12121f;
+  font-size: 12px;
+  color: #b8a888;
+  line-height: 1.45;
+}
+
+.jump-physics-title {
+  color: #f78c6c;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+.jump-physics-detail {
+  color: #cfe3ff;
+}
+
+.jump-rarity {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #2a2a4a;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: #d4c5a0;
+}
+
+.jump-rarity .jump-physics-title {
+  color: #c792ea;
+}
+
+.skater-custom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #3a3a5e;
+  border-radius: 4px;
+  background: #10101c;
+}
+
+.skater-custom-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 16px;
+}
+
+.skater-tutu {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #d4c5a0;
+  font-size: 12px;
+  cursor: pointer;
+  padding-bottom: 4px;
+}
+
+.skater-tutu input {
+  accent-color: #ff99cc;
+  width: 14px;
+  height: 14px;
+}
+
+.skater-custom-hint {
+  font-size: 11px;
+  color: #6a7a8a;
+}
+
+.jump-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  font-size: 11px;
+  color: #8a8aca;
+}
+
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Error message from a failed parse/eval, overlaid on the canvas area. */
+.output {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 12px 16px;
+  max-height: 40%;
+  overflow: auto;
+  background: rgba(10, 10, 20, 0.85);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #ffb4b4;
+  white-space: pre-wrap;
+  word-break: break-word;
+  z-index: 5;
+}
+/* Leave room for the reveal button, which only overlays this pane while the
+   code column is hidden. */
+.app.code-hidden .output { padding-top: 48px; }
+
+/* Button that reveals the code column again when it is hidden. */
+.reveal-code {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 10;
+}
+
+/* A centred square that fits the (possibly non-square) animation area. Give your
+   <canvas> this class, so that drawings aren't stretched. */
+.canvas {
+  width: min(100cqw, 100cqh);
+  height: min(100cqw, 100cqh);
+}
+
